@@ -11,3 +11,7 @@ func NewCache() *Cache {
 func (c *Cache) Set(key string, value interface{}) {
 	c.date[key] = value
 }
+
+func (c *Cache) Get(key string) interface{} {
+	return c.date[key]
+}
