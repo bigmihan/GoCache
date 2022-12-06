@@ -1,4 +1,5 @@
 # GoCache
+Ensure the library is installed and up to date by running  go get -u github.com/bigmihan/GoCache.
 
 	c := GoCache.NewCache()
   
