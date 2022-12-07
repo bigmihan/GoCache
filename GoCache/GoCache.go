@@ -21,10 +21,8 @@ type itemCache struct {
 func (c *Cache) Cleanup() {
 
 	for {
-		<-time.After(c.CleanupInterval)
-
 		c.cleanupDate()
-
+		<-time.After(c.CleanupInterval)
 	}
 }
 
@@ -34,13 +32,27 @@ func (c *Cache) cleanupDate() {
 	}
 	c.mu.Lock()
 	defer c.mu.Unlock()
+
+	jobs := make(chan string)
 	timeNowUnix := time.Now().Unix()
-	for key, itemCache := range c.date {
+	//results:=make(chan itemCache)
+	go c.cleanWorker(jobs, timeNowUnix)
+
+	for key := range c.date {
+		jobs <- key
+
+	}
+	close(jobs)
+}
+
+func (c *Cache) cleanWorker(jobs <-chan string, timeNowUnix int64) {
+	for key := range jobs {
+		itemCache := c.date[key]
 		if itemCache.timeDeleteUnix < timeNowUnix {
 			delete(c.date, key)
 		}
-
 	}
+
 }
 
 func NewCache(CleanupInterval time.Duration, startCleanup bool) *Cache {
