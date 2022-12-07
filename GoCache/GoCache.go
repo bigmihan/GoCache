@@ -49,7 +49,7 @@ func (c *Cache) cleanWorker(jobs <-chan string, timeNowUnix int64) {
 	for key := range jobs {
 		itemCache := c.date[key]
 		if itemCache.timeDeleteUnix < timeNowUnix {
-			delete(c.date, key)
+			delete(c.date, key) //
 		}
 	}
 
