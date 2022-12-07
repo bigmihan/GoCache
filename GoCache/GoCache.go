@@ -37,7 +37,7 @@ func (c *Cache) cleanupDate() {
 	timeNowUnix := time.Now().Unix()
 	for key, itemCache := range c.date {
 		if itemCache.timeDeleteUnix < timeNowUnix {
-			delete(c.date, key)
+			delete(c.date, key) //
 		}
 
 	}
