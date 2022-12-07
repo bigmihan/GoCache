@@ -43,32 +43,3 @@ go get -u github.com/bigmihan/GoCache
 	
 	
 	
-	
-	
-For test
-Worker pool
-	
-	countCache := 15
-
-	CleanupInterval := time.Second * 100
-	startCleanup := false // start goruten in NewCache
-	c := GoCache.NewCache(CleanupInterval, startCleanup)
-
-	for i := 0; i < countCache; i++ {
-
-		if i < 5 {
-			c.Set(fmt.Sprintf("key %d", i), i, time.Second*100)
-		} else {
-			c.Set(fmt.Sprintf("key %d", i), i, time.Second*1)
-		}
-
-	}
-
-	time.Sleep(time.Second * 2)
-
-	go c.Cleanup()
-
-	time.Sleep(time.Second * 1)
-	fmt.Printf("len(cache)=%d", c.CountOfElement())
-	
-	
